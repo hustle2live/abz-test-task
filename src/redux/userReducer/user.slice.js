@@ -34,6 +34,7 @@ export const userReducer = createSlice({
    extraReducers: (builder) => {
       builder.addCase(fetchUsers.fulfilled, (state, action) => {
          const { users, total_users } = action.payload;
+
          state.usersArray = users;
          state.usersTotal = total_users;
 

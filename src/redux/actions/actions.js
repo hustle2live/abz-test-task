@@ -17,7 +17,12 @@ const fetchUsers = createAsyncThunk(
          if (!response.ok) rejectWithValue(ErrorTypes.GET_USERS_ERROR);
 
          const data = await response.json();
-         return data;
+
+         if (data.users && data.total_users) {
+            return { users: data.users, total_users: data.total_users };
+         }
+
+         return rejectWithValue(ErrorTypes.UNKNOWN_ERROR);
       } catch (error) {
          return rejectWithValue(error.message);
       }
