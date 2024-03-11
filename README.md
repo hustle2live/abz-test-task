@@ -1,11 +1,11 @@
-# Wellcome,
+ Wellcome,
 
-This test task is completed only for the customer company 
+### This is the test task made on React.js - completed only for the customer's vacancy. 
 
-**Used technologies:** In this project i used the next stack:
-
-#### `-React, -Redux, -@reduxjs/toolkit, -Material-UI -SASS, -JavaScript, -HTML, -CSS`
+**Used technologies:** 
+#### `-React, -Redux, -@reduxjs/toolkit, -Material-Design Library, -CSS-Modules, -JavaScript, -JSX, React-hooks`
 
 #### VIEW DEMO
 
-Running deployed app **[By Click](https://hustle2live.github.io/abz-landing/)**
+Running deployed app **[By Click](https://hustle2live.github.io/abz-test-task/)**
+
