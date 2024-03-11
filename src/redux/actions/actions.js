@@ -39,8 +39,10 @@ const postNewUser = createAsyncThunk(
          if (formData && token) {
             const postUserResponse = await userAPI.postUser(formData, token);
 
-            if (!postUserResponse.ok)
-               throw new Error(ErrorTypes.POST_USER_ERROR);
+            if (!postUserResponse.ok) {
+               const respData = await postUserResponse.json();
+               throw new Error(respData?.message ?? ErrorTypes.POST_USER_ERROR);
+            }
 
             const data = await postUserResponse.json();
             return data;
