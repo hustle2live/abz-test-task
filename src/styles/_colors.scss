@@ -1,0 +1,47 @@
+// colors pallete
+
+:root {
+   --md-sys-color-primary: rgba(0, 189, 211, 1);
+   --md-sys-color-error: rgba(203, 61, 64, 1);
+   --md-sys-color-on-surface-variant: rgba(126, 126, 126, 1);
+   --md-radio-icon-color: rgba(208, 207, 207, 1);
+   --md-outlined-text-field-outline-color: rgba(208, 207, 207, 1);
+   --md-outlined-field-outline-color: rgba(208, 207, 207, 1);
+
+   --md-outlined-text-field-hover-outline-width: 2px;
+   --md-outlined-text-field-hover-outline-color: rgba(0, 189, 211, 1);
+   --md-outlined-text-field-error-hover-outline-color: var(
+      --md-sys-color-error
+   );
+
+   --md-outlined-text-field-focus-outline-width: 2px;
+   --md-outlined-text-field-active-outline-width: 2px;
+   --md-outlined-text-field-error-outline-width: 4px;
+
+   --md-outlined-field-error-hover-outline-color: var(--md-sys-color-error);
+}
+
+$primary: #f4e041;
+$primaryRGB: rgba(244, 224, 65, 1);
+
+$onPrimary: #000000;
+
+$titleText: rgba(0, 0, 0, 0.87);
+
+$primaryFixed: #ffe302;
+$neutral: #b4b4b4;
+
+$secondary: #00bdd3;
+$secondaryRGB: rgba(0, 189, 211, 1);
+
+$background: #f8f8f8;
+$onBackground: #7e7e7e; // rgba(126, 126, 126, 1)
+
+$outline: #d0cfcf;
+
+$error: #cb3d40;
+
+$surface: #ffffff;
+$inverseSurface: #000000;
+
+$imageShadow: rgba(0, 0, 0, 0.5);

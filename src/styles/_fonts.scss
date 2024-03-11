@@ -1,0 +1,25 @@
+@font-face {
+   font-family: 'NunitoRegular';
+   src: url('./fonts/Nunito-Regular.ttf');
+   font-style: normal;
+   font-weight: 400;
+}
+@font-face {
+   font-family: 'RobotoRegular';
+   src: url('./fonts/Roboto-Regular.ttf');
+   font-style: normal;
+   font-weight: 400;
+}
+
+$fontPrimary: NunitoRegular;
+$fontSecondary: RobotoRegular;
+
+:root {
+   --md-ref-typeface-brand: $fontPrimary;
+   --md-ref-typeface-plain: $fontPrimary;
+   
+
+   --md-sys-typescale-body-large-font: $fontPrimary;
+}
+
+// fonts

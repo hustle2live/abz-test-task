@@ -1,0 +1,137 @@
+@use 'colors' as *;
+@use 'fonts' as *;
+
+body {
+   font-family: $fontPrimary;
+   font-style: normal;
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 26px;
+   background: $background;
+   color: $onPrimary;
+   margin: 0;
+}
+
+body,
+input,
+button,
+a,
+p,
+div,
+span {
+   font-family: $fontPrimary !important;
+}
+
+.heading,
+h1 {
+   font-family: $fontPrimary;
+   font-size: 40px;
+   line-height: 40px;
+   font-style: normal;
+   font-weight: 400;
+}
+
+.heading {
+   margin: 0 auto;
+   text-align: center;
+}
+
+.container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   max-width: 1170px;
+   margin: 140px auto 100px;
+}
+
+input[type='submit'],
+button {
+   min-width: 100px;
+   width: 100px;
+   height: 34px;
+   padding: 4px 20px;
+   border-radius: 80px;
+   border: 0;
+   margin: auto;
+   cursor: pointer;
+   font-size: 16px;
+   font-weight: 400;
+   line-height: 26px;
+   letter-spacing: 0em;
+   text-align: center;
+
+   &.buttonPrimary {
+      display: block;
+
+      color: $onPrimary;
+      background: $primary;
+
+      &:hover {
+         background: $primaryFixed;
+      }
+
+      &:disabled {
+         background: $neutral;
+         color: $surface;
+         cursor: default;
+      }
+   }
+}
+
+.errorMessage {
+   color: $error;
+   font-weight: bold;
+   font-size: 26px;
+   line-height: 32px;
+}
+
+.tooltip {
+   position: relative;
+   cursor: pointer;
+
+   .tooltiptext {
+      visibility: hidden;
+      position: absolute;
+      color: $surface;
+      background: $inverseSurface;
+      text-align: center;
+      padding: 3px 16px;
+      border-radius: 4px;
+      top: 30px;
+      left: 50%;
+      z-index: 1;
+   }
+   &:hover .tooltiptext {
+      visibility: visible;
+   }
+}
+
+.invalid {
+   border: 2px solid $error;
+}
+
+.hidden {
+   display: none;
+}
+
+@media screen and (max-width: 560px) {
+   h2,
+   h3 {
+      max-width: 328px;
+   }
+}
+
+@media screen and (max-width: 355px) {
+   button {
+      min-width: 80px;
+      height: 30px;
+      padding: 4px 14px;
+   }
+
+   h1,
+   h2,
+   h3 {
+      font-size: 36px;
+      line-height: 36px;
+   }
+}

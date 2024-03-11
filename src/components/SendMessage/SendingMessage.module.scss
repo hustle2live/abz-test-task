@@ -1,0 +1,20 @@
+@use '../../styles/fonts' as *;
+
+.register__message {
+   display: block;
+   margin: 140px auto 100px;
+   max-width: 1170px;
+   text-align: center;
+
+   &__text {
+      margin: 0 auto;
+      font-family: $fontPrimary;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 40px;
+      line-height: 40px;
+   }
+   &__picture {
+      margin-top: 50px;
+   }
+}

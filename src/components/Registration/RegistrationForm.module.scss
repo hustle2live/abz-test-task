@@ -1,0 +1,174 @@
+@use '../../styles/colors' as *;
+@use '../../styles/fonts' as *;
+
+.material_d_field {
+   width: 100%;
+}
+
+.sectionTitle {
+   margin-top: 0;
+   max-width: 1170px;
+}
+
+.fileUpload {
+   margin: 47px auto 50px;
+   box-sizing: border-box;
+   height: 54px;
+   max-height: 54px;
+}
+
+.formSubmit,
+.textFieldsGroup {
+   max-width: 380px;
+}
+
+.formSubmit {
+   border: none;
+
+   .textFieldsGroup {
+      margin-top: 50px;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      margin-bottom: 0;
+
+      md-outlined-text-field {
+         font-family: $fontPrimary;
+         width: -webkit-fill-available;
+         margin: 0 auto;
+         margin-bottom: 50px;
+         max-height: 54px;
+
+         &:last-of-type {
+            margin-bottom: 40px;
+         }
+
+         input {
+            font-family: $fontPrimary !important;
+            padding: 16px 16px;
+         }
+      }
+   }
+
+   .radioGroup {
+      &__title {
+         font-family: $fontPrimary;
+         font-size: 16px;
+         font-weight: 400;
+         line-height: 26px;
+         letter-spacing: 0em;
+         text-align: left;
+         margin-top: 3px;
+         margin-bottom: 10px;
+         color: $titleText;
+      }
+
+      &__element {
+         display: flex;
+         justify-content: flex-start;
+         align-items: center;
+         gap: 12px;
+         margin: 0;
+         margin-bottom: 7px;
+
+         &:last-of-type {
+            margin: 0;
+         }
+      }
+   }
+
+   .fileUpload {
+      display: flex;
+
+      md-outlined-field:first-of-type {
+         --md-outlined-field-outline-color: $titleText;
+         --md-outlined-field-hover-outline-color: $titleText;
+         --md-outlined-field-label-text-color: $titleText;
+         --md-outlined-field-container-shape: 0px;
+         --md-outlined-field-container-shape-end-start: 4px;
+         --md-outlined-field-container-shape-start-start: 4px;
+
+         box-sizing: border-box;
+         width: 83px;
+         height: 54px;
+         max-height: 54px;
+         min-width: 83px;
+         max-width: 83px;
+
+         input[type='file'] {
+            width: 83px;
+            padding-right: 0;
+         }
+
+         --md-outlined-field-supporting-text-leading-space: 10px;
+      }
+
+      md-outlined-field {
+         --md-outlined-field-container-shape-end-start: 0px;
+         --md-outlined-field-container-shape-start-start: 0px;
+
+         --md-outlined-field-outline-color: var(
+            --md-outlined-text-field-outline-color
+         );
+         --md-outlined-field-hover-outline-color: var(
+            --md-outlined-text-field-outline-color
+         );
+         --md-outlined-field-active-outline-color: var(
+            --md-outlined-text-field-outline-color
+         );
+         --md-outlined-field-focus-outline-color: var(
+            --md-outlined-text-field-outline-color
+         );
+
+         width: 100%;
+         max-height: 54px;
+         border-radius: 0;
+      }
+
+      md-outlined-field:last-of-type {
+         --md-outlined-field-hover-label-text-color: var(
+            --md-sys-color-on-surface-variant
+         );
+      }
+
+      &__label {
+         font-family: $fontPrimary;
+         font-size: 16px;
+         font-weight: 400;
+         letter-spacing: 0em;
+         text-align: left;
+
+         color: $onBackground;
+         display: block;
+         cursor: default;
+
+         &_fill {
+            color: $titleText;
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 425px) {
+   .sectionTitle,
+   .formSubmit,
+   .textFieldsGroup {
+      max-width: 328px;
+   }
+}
+
+@media screen and (max-width: 340px) {
+   .sectionTitle,
+   .formSubmit,
+   .textFieldsGroup {
+      max-width: 300px;
+   }
+
+   .fileUpload {
+      label {
+         padding: 12px 2px;
+         text-align: center;
+      }
+   }
+}
