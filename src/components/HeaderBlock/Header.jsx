@@ -2,7 +2,8 @@ import BackgroundImage from '../../assets/images/1x1.png';
 import Logo from '../../assets/images/Logo.svg';
 
 import global from '../../styles/styles.module.scss';
-import styles from '../Header/Header.module.scss';
+
+import styles from './Header.module.scss';
 
 export const Header = () => {
    return (

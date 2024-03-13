@@ -20,6 +20,8 @@ import {
 
 import { fetchPositions } from '../../redux/actions/actions.js';
 
+import { ErrorMessage } from '../ErrorMessage/Error.jsx';
+
 import global from '../../styles/styles.module.scss';
 
 import styles from './RegistrationForm.module.scss';
@@ -32,7 +34,8 @@ export const Register = () => {
    }, [dispatch]);
 
    const state = useSelector((state) => state.userReducer);
-   const positions = state.fetchPositions || null;
+   const positions = state.fetchPositions;
+   const { postNewUserError, fetchPositionsError } = state.errors;
 
    const {
       register,
@@ -163,6 +166,9 @@ export const Register = () => {
                      <label htmlFor={`radio-${pos.id}`}>{pos.name}</label>
                   </div>
                ))}
+               {fetchPositionsError && (
+                  <ErrorMessage error={fetchPositionsError} />
+               )}
             </div>
             <md-outlined-field
                class={styles.fileUpload}
@@ -207,6 +213,8 @@ export const Register = () => {
                   )}
                </md-outlined-field>
             </md-outlined-field>
+
+            {postNewUserError && <ErrorMessage error={postNewUserError} />}
 
             <input
                type="submit"

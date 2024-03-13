@@ -3,7 +3,11 @@ import { increment, usersStartingLimit } from '../common/constants.js';
 const initialState = {
    usersArray: [],
    status: 'loading',
-   error: '',
+   errors: {
+      fetchUsersError: '',
+      postNewUserError: '',
+      fetchPositionsError: '',
+   },
    usersLimit: usersStartingLimit,
    fetchData: null,
    postData: {
