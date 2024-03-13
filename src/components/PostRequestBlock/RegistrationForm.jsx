@@ -180,7 +180,7 @@ export const Register = () => {
                               helpers.fileSizeValidation(files) ||
                               'Max size 5mb',
                         },
-                        required: true,
+                        required: 'Empty field!',
                      })}
                      type="file"
                      id="avatar"
