@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import { postNewUser } from '../../redux/actions/actions.js';
 
 import {
    cutElementsName,
+   fileSizeValidation,
    regExpEmail,
    regExpName,
    regExpPhone,
@@ -43,7 +44,8 @@ export const Register = () => {
    });
 
    const userFiles = getValues('userFile');
-   const userFilesDidUpload = () => userFiles && !!userFiles.length;
+   const userFilesDidUpload = () =>
+      userFiles?.length > 0 ? userFiles[0] : false;
 
    const onSubmit = (data) => {
       const formData = setFormData(data);
@@ -180,7 +182,7 @@ export const Register = () => {
                      {...register('userFile', {
                         validate: {
                            MoreThan5MB: (files) =>
-                              files[0]?.size / 1024 < 5120 || 'Max size 5mb',
+                              fileSizeValidation(files) || 'Max size 5mb',
                         },
                         required: true,
                      })}
@@ -190,6 +192,7 @@ export const Register = () => {
                      error={errors.userFile}
                   />
                </md-outlined-field>
+
                <md-outlined-field
                   error={errors.userFile}
                   htmlFor="avatar"
@@ -197,7 +200,7 @@ export const Register = () => {
                >
                   {userFilesDidUpload() ? (
                      <span className={styles.fileUpload__label_fill}>
-                        {cutElementsName(userFiles[0])}
+                        {cutElementsName(userFilesDidUpload())}
                      </span>
                   ) : (
                      <span className={styles.fileUpload__label}>

@@ -1,12 +1,24 @@
 const cutLength = 14;
 const extensionLength = -4;
+const bytesToKBytesDenominator = 1024;
+const MaxFileSizeKbytes = 5120;
 
-const cutElementsName = (obj) =>
-   [...obj.name]
+const fileSizeValidation = (files = null) => {
+   if (!files) return false;
+   return (
+      files[0]?.size / bytesToKBytesDenominator < MaxFileSizeKbytes || false
+   );
+};
+
+const cutElementsName = (obj = null) => {
+   if (!obj?.name) return false;
+
+   return [...obj.name]
       .slice(0, cutLength)
       .slice(0, extensionLength)
       .concat('... ' + [...obj.name].slice(extensionLength).join(''))
       .join('');
+};
 
 const regExpName = /^[a-z а-яёЁЇїІіЄєҐґ ,.'-]+$/i;
 
@@ -60,6 +72,7 @@ const setFormData = (data) => {
 
 export {
    cutElementsName,
+   fileSizeValidation,
    formatPhone,
    regExpEmail,
    regExpName,
