@@ -77,6 +77,6 @@ export {
    regExpEmail,
    regExpName,
    regExpPhone,
-   validateImageSize,
    setFormData,
+   validateImageSize,
 };

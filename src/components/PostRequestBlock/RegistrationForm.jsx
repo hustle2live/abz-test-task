@@ -7,20 +7,11 @@ import '@material/web/textfield/outlined-text-field.js';
 import '@material/web/field/outlined-field.js';
 import '@material/web/radio/radio.js';
 
-import { postNewUser } from '../../redux/actions/actions.js';
-
-import {
-   cutElementsName,
-   fileSizeValidation,
-   regExpEmail,
-   regExpName,
-   regExpPhone,
-   setFormData,
-} from '../../features/helpers.js';
-
-import { fetchPositions } from '../../redux/actions/actions.js';
+import * as helpers from '../../features/helpers.js';
 
 import { ErrorMessage } from '../ErrorMessage/Error.jsx';
+import { fetchPositions } from '../../redux/actions/actions.js';
+import { postNewUser } from '../../redux/actions/actions.js';
 
 import global from '../../styles/styles.module.scss';
 
@@ -51,7 +42,7 @@ export const Register = () => {
       userFiles?.length > 0 ? userFiles[0] : false;
 
    const onSubmit = (data) => {
-      const formData = setFormData(data);
+      const formData = helpers.setFormData(data);
       dispatch(postNewUser(formData));
    };
 
@@ -78,7 +69,7 @@ export const Register = () => {
                         message: 'Max length is 60 ',
                      },
                      pattern: {
-                        value: regExpName,
+                        value: helpers.regExpName,
                         message:
                            'Only allowed letters A-Z and symbols [a-z а-я `,.-]',
                      },
@@ -102,7 +93,7 @@ export const Register = () => {
                         message: 'Max length is 100',
                      },
                      pattern: {
-                        value: regExpEmail,
+                        value: helpers.regExpEmail,
                         message: 'Not correct email format!',
                      },
                      required: 'Empty field!',
@@ -119,7 +110,7 @@ export const Register = () => {
                <md-outlined-text-field
                   {...register('userPhone', {
                      pattern: {
-                        value: regExpPhone,
+                        value: helpers.regExpPhone,
                         message:
                            'Phone number should starta with +380 and fill only 0-9 digits',
                      },
@@ -186,7 +177,8 @@ export const Register = () => {
                      {...register('userFile', {
                         validate: {
                            MoreThan5MB: (files) =>
-                              fileSizeValidation(files) || 'Max size 5mb',
+                              helpers.fileSizeValidation(files) ||
+                              'Max size 5mb',
                         },
                         required: true,
                      })}
@@ -204,7 +196,7 @@ export const Register = () => {
                >
                   {userFilesDidUpload() ? (
                      <span className={styles.fileUpload__label_fill}>
-                        {cutElementsName(userFilesDidUpload())}
+                        {helpers.cutElementsName(userFilesDidUpload())}
                      </span>
                   ) : (
                      <span className={styles.fileUpload__label}>
