@@ -1,22 +1,21 @@
 {
   "files": {
-    "main.css": "/abz-test-task/static/css/main.eb8a0561.css",
-    "main.js": "/abz-test-task/static/js/main.13ae78db.js",
+    "main.css": "/abz-test-task/static/css/main.f00a9ede.css",
+    "main.js": "/abz-test-task/static/js/main.7ecd3373.js",
     "static/media/bg_4256x2832.jpeg": "/abz-test-task/static/media/bg_4256x2832.6e61b46db6866c28756c.jpeg",
     "static/media/bg_2554x1699.jpg": "/abz-test-task/static/media/bg_2554x1699.12a7230539a201b8bbfc.jpg",
     "static/media/bg_1702x1133.jpg": "/abz-test-task/static/media/bg_1702x1133.d0720783de971a8cb6df.jpg",
-    "static/media/Roboto-Regular.ttf": "/abz-test-task/static/media/Roboto-Regular.fc2b5060f7accec5cf74.ttf",
     "static/media/Nunito-Regular.ttf": "/abz-test-task/static/media/Nunito-Regular.9d7a6e03c6e3ed49c7ac.ttf",
     "static/media/bg_766x510.jpg": "/abz-test-task/static/media/bg_766x510.7094094e4565dc5979b7.jpg",
     "static/media/success-image.svg": "/abz-test-task/static/media/success-image.7f2bc263255ad373fb2ff22d78a964e6.svg",
     "static/media/Logo.svg": "/abz-test-task/static/media/Logo.ef6f10290b4a9563544cb4d9953bf5f7.svg",
     "static/media/photo-cover.svg": "/abz-test-task/static/media/photo-cover.15619f397dc16d2f55d8515f68515d35.svg",
     "index.html": "/abz-test-task/index.html",
-    "main.eb8a0561.css.map": "/abz-test-task/static/css/main.eb8a0561.css.map",
-    "main.13ae78db.js.map": "/abz-test-task/static/js/main.13ae78db.js.map"
+    "main.f00a9ede.css.map": "/abz-test-task/static/css/main.f00a9ede.css.map",
+    "main.7ecd3373.js.map": "/abz-test-task/static/js/main.7ecd3373.js.map"
   },
   "entrypoints": [
-    "static/css/main.eb8a0561.css",
-    "static/js/main.13ae78db.js"
+    "static/css/main.f00a9ede.css",
+    "static/js/main.7ecd3373.js"
   ]
 }
