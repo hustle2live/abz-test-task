@@ -1,4 +1,4 @@
-const cutLength = 24;
+const cutLength = 14;
 const extensionLength = -4;
 
 const cutElementsName = (obj) =>

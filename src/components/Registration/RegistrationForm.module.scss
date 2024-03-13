@@ -10,31 +10,6 @@
    max-width: 1170px;
 }
 
-.fileUpload {
-   margin: 47px auto 50px;
-   box-sizing: border-box;
-   height: 54px;
-   max-height: 54px;
-
-   --md-outlined-field-outline-width: 0;
-
-   & > md-outlined-field {
-      padding: 0;
-   }
-}
-
-md-outlined-field.fileUpload {
-   display: flex !important;
-   flex-wrap: nowrap;
-   padding: 0;
-   white-space: nowrap;
-   gap: 0;
-
-   --md-outlined-field-hover-outline-color: var(
-      --md-outlined-text-field-outline-color
-   );
-}
-
 .formSubmit,
 .textFieldsGroup {
    max-width: 380px;
@@ -97,15 +72,27 @@ md-outlined-field.fileUpload {
    }
 
    .fileUpload {
-      display: flex;
-      max-height: 54px;
+      display: flex !important;
+      flex-wrap: nowrap;
+      padding: 0;
+      white-space: nowrap;
+      gap: 0;
+      margin: 47px auto 50px;
+      box-sizing: border-box;
       height: 54px;
-      --md-outlined-field-hover-outline-width: 0px;
+      max-height: 54px;
 
-      md-outlined-field {
+      --md-outlined-field-outline-width: 0px;
+      --md-outlined-field-hover-outline-width: 0px;
+      --md-outlined-field-hover-outline-color: var(
+         --md-outlined-text-field-outline-color
+      );
+
+      & > md-outlined-field {
          box-sizing: border-box;
          max-height: 54px;
          height: 54px;
+         padding: 0;
 
          --md-outlined-field-container-shape-end-start: 0px;
          --md-outlined-field-container-shape-start-start: 0px;
@@ -134,6 +121,12 @@ md-outlined-field.fileUpload {
       }
 
       & > md-outlined-field:first-of-type {
+         width: 83px;
+         min-width: 83px;
+         max-width: 83px;
+         margin-right: -1px;
+         z-index: 20;
+
          --md-outlined-field-outline-color: $titleText;
          --md-outlined-field-hover-outline-color: $titleText;
          --md-outlined-field-label-text-color: $titleText;
@@ -142,21 +135,19 @@ md-outlined-field.fileUpload {
          --md-outlined-field-container-shape-start-start: 4px;
          --md-outlined-field-outline-width: 1px;
 
-         width: 83px;
-         min-width: 83px;
-         max-width: 83px;
          input[type='file'] {
             min-width: 83px;
+            max-width: 300px;
             width: auto;
             padding-right: 0;
          }
       }
 
       & > md-outlined-field:last-of-type {
+         --md-outlined-field-outline-width: 1px;
          --md-outlined-field-hover-label-text-color: var(
             --md-sys-color-on-surface-variant
          );
-         --md-outlined-field-outline-width: 1px;
       }
 
       &__label {
