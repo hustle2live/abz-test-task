@@ -28,7 +28,7 @@ export const Register = () => {
 
    useEffect(() => {
       dispatch(fetchPositions());
-   }, []);
+   }, [dispatch]);
 
    const state = useSelector((state) => state.userReducer);
    const positions = state.fetchPositions || null;

@@ -4,15 +4,8 @@
    font-style: normal;
    font-weight: 400;
 }
-@font-face {
-   font-family: 'RobotoRegular';
-   src: url('./fonts/Roboto-Regular.ttf');
-   font-style: normal;
-   font-weight: 400;
-}
 
 $fontPrimary: NunitoRegular;
-$fontSecondary: RobotoRegular;
 
 :root {
    --md-ref-typeface-brand: $fontPrimary;
@@ -20,4 +13,3 @@ $fontSecondary: RobotoRegular;
 
    --md-sys-typescale-body-large-font: $fontPrimary;
 }
-
