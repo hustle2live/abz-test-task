@@ -17,6 +17,11 @@ const userAPI = {
             Token: token,
          },
       }).then((response) => response),
+
+   fetchPositions: async () =>
+      fetch(
+         'https://frontend-test-assignment-api.abz.agency/api/v1/positions',
+      ).then((response) => response),
 };
 
 export { userAPI };

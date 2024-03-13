@@ -10,7 +10,7 @@ const initialState = {
       tokenData: null,
       responseData: null,
    },
-   fetchPosition: null,
+   fetchPositions: null,
    successSend: false,
 };
 

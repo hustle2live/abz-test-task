@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchUsers, postNewUser } from '../actions/actions.js';
+import { fetchPositions, fetchUsers, postNewUser } from '../actions/actions.js';
 
 import { increment, initialState, usersStartingLimit } from './initialState.js';
 
@@ -50,11 +50,20 @@ export const userReducer = createSlice({
          stateFulfilled(state);
       });
 
-      builder.addCase(fetchUsers.pending, (state) => stateLoading(state));
+      builder.addCase(fetchPositions.fulfilled, (state, action) => {
+         const { positions } = action.payload;
+         state.fetchPositions = positions;
+         stateFulfilled(state);
+      });
 
+      builder.addCase(fetchUsers.pending, (state) => stateLoading(state));
       builder.addCase(postNewUser.pending, (state) => stateLoading(state));
+      builder.addCase(fetchPositions.pending, (state) => stateLoading(state));
 
       builder.addCase(fetchUsers.rejected, (state, action) =>
+         stateError(state, action),
+      );
+      builder.addCase(fetchPositions.rejected, (state, action) =>
          stateError(state, action),
       );
 

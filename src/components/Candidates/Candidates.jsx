@@ -50,6 +50,7 @@ export const Candidates = () => {
          <h2 className={global.heading}>
             Working with GET request
          </h2>
+
          <div className={styles.candidates}>
             {usersArray && usersArray.length
                ? usersArray.map(
@@ -93,6 +94,7 @@ export const Candidates = () => {
                )
                : null}
          </div>
+
          {status === 'loading' && <LoadingElement />}
          {error && <ErrorMessage error={error} />}
 
@@ -106,3 +108,4 @@ export const Candidates = () => {
       </section>
    );
 };
+

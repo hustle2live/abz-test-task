@@ -1,5 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { useForm } from 'react-hook-form';
 
 import '@material/web/textfield/outlined-text-field.js';
@@ -16,12 +17,21 @@ import {
    setFormData,
 } from '../../features/helpers.js';
 
+import { fetchPositions } from '../../redux/actions/actions.js';
+
 import global from '../../styles/styles.module.scss';
 
 import styles from './RegistrationForm.module.scss';
 
 export const Register = () => {
    const dispatch = useDispatch();
+
+   useEffect(() => {
+      dispatch(fetchPositions());
+   }, []);
+
+   const state = useSelector((state) => state.userReducer);
+   const positions = state.fetchPositions || null;
 
    const {
       register,
@@ -135,67 +145,42 @@ export const Register = () => {
                <p id="group-title" className={styles.radioGroup__title}>
                   Select your position
                </p>
-               <div className={styles.radioGroup__element}>
-                  <md-radio
-                     {...register('userPosition')}
-                     id="first-radio"
-                     value={1}
-                     aria-label="First"
-                     className={styles.radioGroup__element}
-                     label="Frontend developer"
-                  ></md-radio>
-                  <label htmlFor="first-radio">Frontend developer</label>
-               </div>
-               <div className={styles.radioGroup__element}>
-                  <md-radio
-                     className={styles.radioGroup__element}
-                     {...register('userPosition')}
-                     value={2}
-                     label="Backend Developer"
-                     checked
-                     id="second-radio"
-                     aria-label="Second"
-                  ></md-radio>
-                  <label htmlFor="second-radio">Backend Developer</label>{' '}
-               </div>
-               <div className={styles.radioGroup__element}>
-                  <md-radio
-                     className={styles.radioGroup__element}
-                     {...register('userPosition')}
-                     value={3}
-                     label="Designer"
-                     id="third-radio"
-                     aria-label="Third"
-                  ></md-radio>
-                  <label htmlFor="third-radio">Designer</label>
-               </div>
-               <div className={styles.radioGroup__element}>
-                  <md-radio
-                     className={styles.radioGroup__element}
-                     {...register('userPosition', {
-                        required: true,
-                     })}
-                     value={4}
-                     label="QA"
-                     id="fourth-radio"
-                     aria-label="Fourth"
-                  ></md-radio>
-                  <label htmlFor="fourth-radio">QA</label>
-               </div>
+               {positions
+                  ? positions.map((pos) => (
+                     <div
+                        key={`radio-${pos.id}`}
+                        className={styles.radioGroup__element}
+                     >
+                        <md-radio
+                           {...register('userPosition')}
+                           id={`radio-${pos.id}`}
+                           value={pos.id}
+                           className={styles.radioGroup__element}
+                           label={pos.name}
+                           checked={pos.id === 1}
+                        ></md-radio>
+                        <label htmlFor={`radio-${pos.id}`}>{pos.name}</label>
+                     </div>
+                  ))
+                  : null}
             </div>
-            <div className={styles.fileUpload}>
+            <md-outlined-field
+               class={styles.fileUpload}
+               spacing={0}
+               error={errors.userFile}
+               error-text={errors.userFile?.message || 'Empty Field!'}
+            >
                <md-outlined-field
                   className={styles.fileUpload__fileInput}
                   error={errors.userFile}
                   label="Upload"
-                  error-text={errors.userFile?.message || ''}
                >
                   <input
                      className={styles.fileUpload__fileInput__hidden}
                      {...register('userFile', {
                         validate: {
                            MoreThan5MB: (files) =>
-                              files[0]?.size / 1024 < 5120 || 'Max 5mb',
+                              files[0]?.size / 1024 < 5120 || 'Max size 5mb',
                         },
                         required: true,
                      })}
@@ -220,7 +205,7 @@ export const Register = () => {
                      </span>
                   )}
                </md-outlined-field>
-            </div>
+            </md-outlined-field>
 
             <input
                type="submit"

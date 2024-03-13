@@ -60,4 +60,25 @@ const postNewUser = createAsyncThunk(
    },
 );
 
-export { fetchUsers, postNewUser };
+const fetchPositions = createAsyncThunk(
+   ActionTypes.GET_POSITIONS,
+
+   async (_, { rejectWithValue, dispatch }) => {
+      try {
+         const response = await userAPI.fetchPositions();
+         if (!response.ok) rejectWithValue(ErrorTypes.GET_POSITION_ERROR);
+
+         const data = await response.json();
+
+         if (data ?? data.positions) {
+            return { positions: data.positions };
+         }
+
+         return rejectWithValue(ErrorTypes.UNKNOWN_ERROR);
+      } catch (error) {
+         return rejectWithValue(error.message);
+      }
+   },
+);
+
+export { fetchUsers, postNewUser, fetchPositions };
