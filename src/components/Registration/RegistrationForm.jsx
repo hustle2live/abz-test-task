@@ -147,24 +147,22 @@ export const Register = () => {
                <p id="group-title" className={styles.radioGroup__title}>
                   Select your position
                </p>
-               {positions
-                  ? positions.map((pos) => (
-                     <div
-                        key={`radio-${pos.id}`}
+               {positions?.map((pos, index) => (
+                  <div
+                     key={`radio-${pos.id}`}
+                     className={styles.radioGroup__element}
+                  >
+                     <md-radio
+                        {...register('userPosition')}
+                        id={`radio-${pos.id}`}
+                        value={pos.id}
                         className={styles.radioGroup__element}
-                     >
-                        <md-radio
-                           {...register('userPosition')}
-                           id={`radio-${pos.id}`}
-                           value={pos.id}
-                           className={styles.radioGroup__element}
-                           label={pos.name}
-                           checked={pos.id === 1}
-                        ></md-radio>
-                        <label htmlFor={`radio-${pos.id}`}>{pos.name}</label>
-                     </div>
-                  ))
-                  : null}
+                        label={pos.name}
+                        checked={index === 1 ? true : undefined}
+                     ></md-radio>
+                     <label htmlFor={`radio-${pos.id}`}>{pos.name}</label>
+                  </div>
+               ))}
             </div>
             <md-outlined-field
                class={styles.fileUpload}
