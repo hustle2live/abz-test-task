@@ -13,7 +13,7 @@ const fetchUsers = createAsyncThunk(
       } = getState();
 
       try {
-         const response = await userAPI.fetchUsers(usersLimit);
+         const response = await fetch(userAPI.fetchUsers + usersLimit);
          if (!response.ok) rejectWithValue(ErrorTypes.GET_USERS_ERROR);
 
          const data = await response.json();
@@ -33,27 +33,30 @@ const postNewUser = createAsyncThunk(
    ActionTypes.POST_USER,
 
    async function (formData, { rejectWithValue }) {
+      if (!formData) rejectWithValue(ErrorTypes.FORM_DATA_ERROR);
+
       try {
-         const getTokenResponse = await userAPI.fetchToken();
+         const getTokenResponse = await fetch(userAPI.fetchToken);
          if (!getTokenResponse.ok) throw new Error(ErrorTypes.GET_TOKEN_ERROR);
 
          const tokenData = await getTokenResponse.json();
 
-         const { token } = tokenData;
+         const postUserResponse = await fetch(userAPI.postUser, {
+            method: 'POST',
+            body: formData,
+            headers: {
+               Token: tokenData.token,
+            },
+         });
 
-         if (formData && token) {
-            const postUserResponse = await userAPI.postUser(formData, token);
-
-            if (!postUserResponse.ok) {
-               const respData = await postUserResponse.json();
-               throw new Error(respData?.message ?? ErrorTypes.POST_USER_ERROR);
-            }
-
-            const data = await postUserResponse.json();
-            return data;
+         if (!postUserResponse.ok) {
+            const responseErrorData = await postUserResponse.json();
+            const errorMessage = responseErrorData.message;
+            throw new Error(errorMessage || ErrorTypes.POST_USER_ERROR);
          }
 
-         rejectWithValue(ErrorTypes.FORM_DATA_ERROR);
+         const data = await postUserResponse.json();
+         return data;
       } catch (error) {
          return rejectWithValue(error?.message ?? ErrorTypes.UNKNOWN_ERROR);
       }
@@ -65,16 +68,15 @@ const fetchPositions = createAsyncThunk(
 
    async (_, { rejectWithValue }) => {
       try {
-         const response = await userAPI.fetchPositions();
+         const response = await fetch(userAPI.fetchPositions);
          if (!response.ok) rejectWithValue(ErrorTypes.GET_POSITION_ERROR);
 
          const data = await response.json();
+         const positions = data.positions;
 
-         if (data && data.positions) {
-            return { positions: data.positions };
-         }
+         if (!positions) rejectWithValue(ErrorTypes.GET_POSITION_ERROR);
 
-         return rejectWithValue(ErrorTypes.GET_POSITION_ERROR);
+         return { positions: positions };
       } catch (error) {
          return rejectWithValue(error.message);
       }

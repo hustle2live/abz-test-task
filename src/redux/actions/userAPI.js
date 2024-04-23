@@ -1,27 +1,13 @@
 const userAPI = {
-   fetchUsers: async (numberOfUsers) =>
-      fetch(
-         `https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=${numberOfUsers}`,
-      ).then((response) => response),
+   fetchPositions:
+      'https://frontend-test-assignment-api.abz.agency/api/v1/positions',
 
-   fetchToken: async () =>
-      fetch(
-         'https://frontend-test-assignment-api.abz.agency/api/v1/token',
-      ).then((response) => response),
+   fetchToken: 'https://frontend-test-assignment-api.abz.agency/api/v1/token',
 
-   postUser: async (userData, token) =>
-      fetch('https://frontend-test-assignment-api.abz.agency/api/v1/users', {
-         method: 'POST',
-         body: userData,
-         headers: {
-            Token: token,
-         },
-      }).then((response) => response),
+   fetchUsers:
+      'https://frontend-test-assignment-api.abz.agency/api/v1/users?page=1&count=',
 
-   fetchPositions: async () =>
-      fetch(
-         'https://frontend-test-assignment-api.abz.agency/api/v1/positions',
-      ).then((response) => response),
+   postUser: 'https://frontend-test-assignment-api.abz.agency/api/v1/users',
 };
 
 export { userAPI };
