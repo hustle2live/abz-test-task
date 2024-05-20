@@ -8,10 +8,8 @@ import '@material/web/field/outlined-field.js';
 import '@material/web/radio/radio.js';
 
 import * as helpers from '../../features/helpers.js';
-
 import { ErrorMessage } from '../ErrorMessage/Error.jsx';
-import { fetchPositions } from '../../redux/actions/actions.js';
-import { postNewUser } from '../../redux/actions/actions.js';
+import { fetchPositions, postNewUser } from '../../redux/actions/actions.js';
 
 import global from '../../styles/styles.module.scss';
 

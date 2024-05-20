@@ -69,7 +69,7 @@ export const Candidates = () => {
          <button
             className={`${styles.more} ${global.buttonPrimary}`}
             onClick={() => dispatch(usersActionCreator.increaseUsersLimit())}
-            disabled={!(usersLimit < usersTotal)}
+            disabled={usersLimit >= usersTotal}
          >
             Show more
          </button>

@@ -7,12 +7,15 @@ import { Register } from './components/PostRequestBlock/RegistrationForm';
 import { SuccessMessage } from './components/SuccessSendMessage/SendingMessage';
 
 function App() {
-   const successSend = useSelector((state) => state.userReducer.successSend);
+   const successSend = useSelector(
+      ({ userReducer }) => userReducer.successSend,
+   );
+
    return (
       <>
          <Header />
          <Candidates />
-         {!successSend ? <Register /> : <SuccessMessage />}
+         {successSend ? <SuccessMessage /> : <Register />}
       </>
    );
 }
