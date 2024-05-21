@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useForm } from 'react-hook-form';
@@ -24,28 +24,24 @@ export const Register = () => {
 
    const state = useSelector((state) => state.userReducer);
    const positions = state.fetchPositions;
+
    const { postNewUserError, fetchPositionsError } = state.errors;
+
+   const [imgData, setImgData] = useState(null);
 
    const {
       register,
       formState: { errors, isValid },
       handleSubmit,
       setError,
-      getValues,
    } = useForm({
       mode: 'all',
    });
-
-   const userFiles = getValues('userFile');
-   const userFilesDidUpload = () =>
-      userFiles?.length > 0 ? userFiles[0] : false;
 
    const onSubmit = (data) => {
       const formData = helpers.setFormData(data);
       dispatch(postNewUser(formData));
    };
-
-   const [imgData, setImgData] = useState(null);
 
    function onChangePicture(data) {
       if (data[0]) {
@@ -59,36 +55,26 @@ export const Register = () => {
                const height = this.height;
                const width = this.width;
 
-               console.log(height, width);
+               console.log('img :', img);
 
-               const sizeIsOk = () =>
-                  (height && width && height > 69 && width > 69) || false;
+               console.log('width ' + this.width);
+               console.log('height ' + img.height);
 
-               console.log('sizeIsOk() : ', sizeIsOk());
+               const sizeIsOk = helpers.checkImgResolution(height, width);
 
-               if (!sizeIsOk()) {
+               if (!sizeIsOk) {
                   setError('userFile', {
                      type: 'manual',
                      message: 'Invalid file format! Min size is 70x70 px.',
                   });
                   setImgData(false);
-               } else if (sizeIsOk()) setImgData(true);
+               } else setImgData(data[0]);
             };
          });
 
          reader.readAsDataURL(data[0]);
       }
    }
-
-   // useEffect(() => {
-   //    console.log('useEffect....');
-
-   //    if (!imgData)
-   //       setError('userFile', {
-   //          type: 'manual',
-   //          message: 'Invalid file format! Min size is 70x70 px.',
-   //       });
-   // }, [setError, imgData]);
 
    return (
       <section className={global.container}>
@@ -223,13 +209,12 @@ export const Register = () => {
                            MoreThan5MB: (files) =>
                               helpers.fileSizeValidation(files) ||
                               'Max size 5mb',
-                           ImageResValidation: (e) => onChangePicture(e),
-                           // controlImageSize: () =>
-                           //    imgData || 'Min image size is 70px',
+                           ImageResValidation: (files) =>
+                              onChangePicture(files),
                         },
                         pattern: {
                            value: imgData,
-                           message: 'Min image size is 70px',
+                           message: 'Invalid image! Min size is 70x70 px',
                         },
                         required: 'Empty field!',
                      })}
@@ -244,15 +229,17 @@ export const Register = () => {
                   htmlFor="avatar"
                   className={styles.fileUpload__label}
                >
-                  {userFilesDidUpload() ? (
-                     <span className={styles.fileUpload__label_fill}>
-                        {helpers.cutElementsName(userFilesDidUpload())}
-                     </span>
-                  ) : (
-                     <span className={styles.fileUpload__label}>
-                        Upload your photo
-                     </span>
-                  )}
+                  <span
+                     className={
+                        imgData
+                           ? styles.fileUpload__label_fill
+                           : styles.fileUpload__label
+                     }
+                  >
+                     {!errors.userFile && imgData
+                        ? helpers.cutElementsName(imgData)
+                        : 'Upload your photo'}
+                  </span>
                </md-outlined-field>
             </md-outlined-field>
 

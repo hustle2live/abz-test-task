@@ -2,12 +2,20 @@ const cutLength = 14;
 const extensionLength = -4;
 const bytesToKBytesDenominator = 1024;
 const MaxFileSizeKbytes = 5120;
+const minImageRes = 69;
+const firstIndex = 0;
+
+const firstElem = (file) => file[firstIndex] || null;
 
 const fileSizeValidation = (files = null) => {
    if (!files) return false;
    return (
       files[0]?.size / bytesToKBytesDenominator < MaxFileSizeKbytes || false
    );
+};
+
+const checkImgResolution = (height, width) => {
+   return height && width && height > minImageRes && width > minImageRes;
 };
 
 const cutElementsName = (obj = null) => {
@@ -41,25 +49,17 @@ const validateImageSize = async (files) => {
       reader.addEventListener('load', (e) => {
          const img = new Image();
          img.src = e.target.result;
-
          img.onload = function () {
             const height = this.height;
             const width = this.width;
-
             console.log(height, width);
-
             const sizeIsOk = () => height && width && height > 69 && width > 69;
-
-            console.log('sizeIsOk() : ', sizeIsOk());
-
             return !!sizeIsOk();
          };
       });
 
       reader.readAsDataURL(files[0]);
    }
-
-   // return false;
 };
 
 const setFormData = (data) => {
@@ -89,4 +89,8 @@ export {
    regExpPhone,
    setFormData,
    validateImageSize,
+   minImageRes,
+   firstIndex,
+   firstElem,
+   checkImgResolution,
 };
