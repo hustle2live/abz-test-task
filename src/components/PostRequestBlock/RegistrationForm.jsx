@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useForm } from 'react-hook-form';
@@ -30,9 +30,10 @@ export const Register = () => {
       register,
       formState: { errors, isValid },
       handleSubmit,
+      setError,
       getValues,
    } = useForm({
-      mode: 'onTouched',
+      mode: 'all',
    });
 
    const userFiles = getValues('userFile');
@@ -43,6 +44,51 @@ export const Register = () => {
       const formData = helpers.setFormData(data);
       dispatch(postNewUser(formData));
    };
+
+   const [imgData, setImgData] = useState(null);
+
+   function onChangePicture(data) {
+      if (data[0]) {
+         const reader = new FileReader();
+
+         reader.addEventListener('load', (e) => {
+            const img = new Image();
+            img.src = e.target.result;
+
+            img.onload = function () {
+               const height = this.height;
+               const width = this.width;
+
+               console.log(height, width);
+
+               const sizeIsOk = () =>
+                  (height && width && height > 69 && width > 69) || false;
+
+               console.log('sizeIsOk() : ', sizeIsOk());
+
+               if (!sizeIsOk()) {
+                  setError('userFile', {
+                     type: 'manual',
+                     message: 'Invalid file format! Min size is 70x70 px.',
+                  });
+                  setImgData(false);
+               } else if (sizeIsOk()) setImgData(true);
+            };
+         });
+
+         reader.readAsDataURL(data[0]);
+      }
+   }
+
+   // useEffect(() => {
+   //    console.log('useEffect....');
+
+   //    if (!imgData)
+   //       setError('userFile', {
+   //          type: 'manual',
+   //          message: 'Invalid file format! Min size is 70x70 px.',
+   //       });
+   // }, [setError, imgData]);
 
    return (
       <section className={global.container}>
@@ -177,13 +223,19 @@ export const Register = () => {
                            MoreThan5MB: (files) =>
                               helpers.fileSizeValidation(files) ||
                               'Max size 5mb',
+                           ImageResValidation: (e) => onChangePicture(e),
+                           // controlImageSize: () =>
+                           //    imgData || 'Min image size is 70px',
+                        },
+                        pattern: {
+                           value: imgData,
+                           message: 'Min image size is 70px',
                         },
                         required: 'Empty field!',
                      })}
                      type="file"
                      id="avatar"
                      accept="image/jpg, image/jpeg"
-                     error={errors.userFile}
                   />
                </md-outlined-field>
 

@@ -34,22 +34,32 @@ const formatPhone = (phone) => {
    return `${cut(0, 3)} (${cut(3, 6)}) ${cut(6, 9)} ${cut(9, 11)} ${cut(11)}`;
 };
 
-const validateImageSize = (files) => {
-   const file = files[0];
-   const reader = new FileReader();
-   reader.onload = (r) => {
-      const img = new Image();
-      img.src = r.target.result;
-      img.onload = function () {
-         const height = this.height;
-         const width = this.width;
-         if (height < 70 || width < 70) {
-            return 'at least 70px.';
-         }
-         return true;
-      };
-   };
-   reader.readAsDataURL(file);
+const validateImageSize = async (files) => {
+   if (files[0]) {
+      const reader = new FileReader();
+
+      reader.addEventListener('load', (e) => {
+         const img = new Image();
+         img.src = e.target.result;
+
+         img.onload = function () {
+            const height = this.height;
+            const width = this.width;
+
+            console.log(height, width);
+
+            const sizeIsOk = () => height && width && height > 69 && width > 69;
+
+            console.log('sizeIsOk() : ', sizeIsOk());
+
+            return !!sizeIsOk();
+         };
+      });
+
+      reader.readAsDataURL(files[0]);
+   }
+
+   // return false;
 };
 
 const setFormData = (data) => {
