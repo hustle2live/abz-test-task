@@ -5,7 +5,7 @@ const MaxFileSizeKbytes = 5120;
 const minImageRes = 69;
 const firstIndex = 0;
 
-const firstElem = (file) => file[firstIndex] || null;
+const firstNode = (file) => file[firstIndex] || null;
 
 const fileSizeValidation = (files = null) => {
    if (!files) return false;
@@ -42,26 +42,6 @@ const formatPhone = (phone) => {
    return `${cut(0, 3)} (${cut(3, 6)}) ${cut(6, 9)} ${cut(9, 11)} ${cut(11)}`;
 };
 
-const validateImageSize = async (files) => {
-   if (files[0]) {
-      const reader = new FileReader();
-
-      reader.addEventListener('load', (e) => {
-         const img = new Image();
-         img.src = e.target.result;
-         img.onload = function () {
-            const height = this.height;
-            const width = this.width;
-            console.log(height, width);
-            const sizeIsOk = () => height && width && height > 69 && width > 69;
-            return !!sizeIsOk();
-         };
-      });
-
-      reader.readAsDataURL(files[0]);
-   }
-};
-
 const setFormData = (data) => {
    if (!data) return null;
    try {
@@ -88,9 +68,8 @@ export {
    regExpName,
    regExpPhone,
    setFormData,
-   validateImageSize,
    minImageRes,
    firstIndex,
-   firstElem,
+   firstNode,
    checkImgResolution,
 };

@@ -43,37 +43,35 @@ export const Register = () => {
       dispatch(postNewUser(formData));
    };
 
+   const loadImageHandler = (imgNode, file) => {
+      const height = imgNode.height;
+      const width = imgNode.width;
+      console.log(width + ' x ' + height + ' px ');
+      const sizeIsOk = helpers.checkImgResolution(height, width);
+
+      if (!sizeIsOk) {
+         setError('userFile', {
+            type: 'manual',
+            message: 'Invalid file format! Min size is 70x70 px.',
+         });
+         setImgData(null);
+      } else setImgData(file);
+   };
+
    function onChangePicture(data) {
-      if (data[0]) {
+      const file = helpers.firstNode(data);
+
+      if (file) {
          const reader = new FileReader();
 
-         reader.addEventListener('load', (e) => {
+         reader.addEventListener('load', () => {
             const img = new Image();
-            img.src = e.target.result;
-
-            img.onload = function () {
-               const height = this.height;
-               const width = this.width;
-
-               console.log('img :', img);
-
-               console.log('width ' + this.width);
-               console.log('height ' + img.height);
-
-               const sizeIsOk = helpers.checkImgResolution(height, width);
-
-               if (!sizeIsOk) {
-                  setError('userFile', {
-                     type: 'manual',
-                     message: 'Invalid file format! Min size is 70x70 px.',
-                  });
-                  setImgData(false);
-               } else setImgData(data[0]);
-            };
+            img.src = reader.result;
+            img.onload = () => loadImageHandler(img, file);
          });
 
-         reader.readAsDataURL(data[0]);
-      }
+         reader.readAsDataURL(file);
+      } else setImgData(null);
    }
 
    return (
