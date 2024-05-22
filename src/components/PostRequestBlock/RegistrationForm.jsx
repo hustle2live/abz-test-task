@@ -53,37 +53,24 @@ export const Register = () => {
       if (!file) return rejectFunction();
 
       const reader = new FileReader();
-      const loadImagePromise = new Promise((resolve, reject) => {
-         console.log('asdsad 1');
-         reader.onload = (e) => resolve(e);
+
+      return new Promise((resolve, reject) => {
          reader.onerror = (error) => reject(error, 'upload error');
          reader.readAsDataURL(file);
-      });
-
-      return loadImagePromise
-         .then(
-            (e) =>
-               new Promise((resolve, reject) => {
-                  const img = new Image();
-                  img.src = e.target.result;
-                  img.onload = () => resolve(img);
-                  img.onerror = () => reject('error while uploading image');
-               }),
-         )
-         .then(
-            (img) =>
-               new Promise((resolve, reject) => {
-                  const height = img.height;
-                  const width = img.width;
-                  console.log(width + 'x' + height);
-                  const sizeIsOk = helpers.checkImgResolution(height, width);
-                  if (!sizeIsOk) reject('The minimum valid size 70x70 px');
-                  resolve();
-               }),
-         )
-         .then(() => {
-            resolveFunction(file);
-         })
+         reader.addEventListener('load', (e) => {
+            const img = new Image();
+            img.src = e.target.result;
+            img.onerror = () => reject('error while uploading image');
+            img.addEventListener('load', () => {
+               const height = img.height;
+               const width = img.width;
+               const sizeIsOk = helpers.checkImgResolution(height, width);
+               if (!sizeIsOk) reject('The minimum valid size 70x70 px');
+               resolve();
+            });
+         });
+      })
+         .then(() => resolveFunction(file))
          .catch((error) => rejectFunction(error));
    }
 
