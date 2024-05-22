@@ -1,7 +1,6 @@
- Hi There,
-
- This is the test task made on React.js - completed only for the customer's vacancy. 
-
-
-
+ Hello, 
+to view project structure download this repo and install with `npm i` command,
+#### - or click to check out demo [on github IO](https://hustle2live.github.io/abz-test-task/) 
+##
+-> Last version of [ my CV](https://hustle2live.github.io/My_resume/)
 
