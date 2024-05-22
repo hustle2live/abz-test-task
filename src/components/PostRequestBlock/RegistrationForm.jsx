@@ -24,18 +24,14 @@ export const Register = () => {
 
    const state = useSelector((state) => state.userReducer);
    const positions = state.fetchPositions;
-
    const { postNewUserError, fetchPositionsError } = state.errors;
-
    const [imgData, setImgData] = useState(null);
-
    const {
       register,
       formState: { errors, isValid },
       handleSubmit,
-      setError,
    } = useForm({
-      mode: 'all',
+      mode: 'onTouched',
    });
 
    const onSubmit = (data) => {
@@ -43,35 +39,52 @@ export const Register = () => {
       dispatch(postNewUser(formData));
    };
 
-   const loadImageHandler = (imgNode, file) => {
-      const height = imgNode.height;
-      const width = imgNode.width;
-      console.log(width + ' x ' + height + ' px ');
-      const sizeIsOk = helpers.checkImgResolution(height, width);
+   const rejectFunction = (errorMessage = false) => {
+      setImgData(null);
+      return errorMessage;
+   };
 
-      if (!sizeIsOk) {
-         setError('userFile', {
-            type: 'manual',
-            message: 'Invalid file format! Min size is 70x70 px.',
-         });
-         setImgData(null);
-      } else setImgData(file);
+   const resolveFunction = (file) => {
+      setImgData(file);
    };
 
    function onChangePicture(data) {
       const file = helpers.firstNode(data);
+      if (!file) return rejectFunction();
 
-      if (file) {
-         const reader = new FileReader();
-
-         reader.addEventListener('load', () => {
-            const img = new Image();
-            img.src = reader.result;
-            img.onload = () => loadImageHandler(img, file);
-         });
-
+      const reader = new FileReader();
+      const loadImagePromise = new Promise((resolve, reject) => {
+         console.log('asdsad 1');
+         reader.onload = (e) => resolve(e);
+         reader.onerror = (error) => reject(error, 'upload error');
          reader.readAsDataURL(file);
-      } else setImgData(null);
+      });
+
+      return loadImagePromise
+         .then(
+            (e) =>
+               new Promise((resolve, reject) => {
+                  const img = new Image();
+                  img.src = e.target.result;
+                  img.onload = () => resolve(img);
+                  img.onerror = () => reject('error while uploading image');
+               }),
+         )
+         .then(
+            (img) =>
+               new Promise((resolve, reject) => {
+                  const height = img.height;
+                  const width = img.width;
+                  console.log(width + 'x' + height);
+                  const sizeIsOk = helpers.checkImgResolution(height, width);
+                  if (!sizeIsOk) reject('The minimum valid size 70x70 px');
+                  resolve();
+               }),
+         )
+         .then(() => {
+            resolveFunction(file);
+         })
+         .catch((error) => rejectFunction(error));
    }
 
    return (
@@ -208,7 +221,7 @@ export const Register = () => {
                               helpers.fileSizeValidation(files) ||
                               'Max size 5mb',
                            ImageResValidation: (files) =>
-                              onChangePicture(files),
+                              onChangePicture(files) || 'Min size is 70x70',
                         },
                         pattern: {
                            value: imgData,

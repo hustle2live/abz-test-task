@@ -9,13 +9,14 @@ const firstNode = (file) => file[firstIndex] || null;
 
 const fileSizeValidation = (files = null) => {
    if (!files) return false;
-   return (
-      files[0]?.size / bytesToKBytesDenominator < MaxFileSizeKbytes || false
-   );
+   const imgSize = files[0]?.size / bytesToKBytesDenominator;
+   return imgSize < MaxFileSizeKbytes || false;
 };
 
 const checkImgResolution = (height, width) => {
-   return height && width && height > minImageRes && width > minImageRes;
+   return (
+      (height && width && height > minImageRes && width > minImageRes) || false
+   );
 };
 
 const cutElementsName = (obj = null) => {
