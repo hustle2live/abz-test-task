@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { useForm } from 'react-hook-form';
 
 import '@material/web/textfield/outlined-text-field.js';
@@ -34,45 +33,17 @@ export const Register = () => {
       mode: 'onTouched',
    });
 
-   const onSubmit = (data) => {
+   const onFormSubmit = (data) => {
       const formData = helpers.setFormData(data);
       dispatch(postNewUser(formData));
    };
 
-   const rejectFunction = (errorMessage = false) => {
+   const handleImgLoad = (file) => setImgData(file);
+
+   const handleImgFail = (errorMessage = false) => {
       setImgData(null);
       return errorMessage;
    };
-
-   const resolveFunction = (file) => {
-      setImgData(file);
-   };
-
-   function onChangePicture(data) {
-      const file = helpers.firstNode(data);
-      if (!file) return rejectFunction();
-
-      const reader = new FileReader();
-
-      return new Promise((resolve, reject) => {
-         reader.onerror = (error) => reject(error, 'upload error');
-         reader.readAsDataURL(file);
-         reader.addEventListener('load', (e) => {
-            const img = new Image();
-            img.src = e.target.result;
-            img.onerror = () => reject('error while uploading image');
-            img.addEventListener('load', () => {
-               const height = img.height;
-               const width = img.width;
-               const sizeIsOk = helpers.checkImgResolution(height, width);
-               if (!sizeIsOk) reject('The minimum valid size 70x70 px');
-               resolve();
-            });
-         });
-      })
-         .then(() => resolveFunction(file))
-         .catch((error) => rejectFunction(error));
-   }
 
    return (
       <section className={global.container}>
@@ -83,7 +54,7 @@ export const Register = () => {
             className={styles.formSubmit}
             method="post"
             encType="multipart/form-data"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onFormSubmit)}
          >
             <div className={styles.textFieldsGroup}>
                <md-outlined-text-field
@@ -208,7 +179,11 @@ export const Register = () => {
                               helpers.fileSizeValidation(files) ||
                               'Max size 5mb',
                            ImageResValidation: (files) =>
-                              onChangePicture(files) || 'Min size is 70x70',
+                              helpers.fileReaderValidation(
+                                 files,
+                                 handleImgLoad,
+                                 handleImgFail,
+                              ) || 'Min size is 70x70',
                         },
                         pattern: {
                            value: imgData,

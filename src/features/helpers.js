@@ -13,6 +13,36 @@ const fileSizeValidation = (files = null) => {
    return imgSize < MaxFileSizeKbytes || false;
 };
 
+const fileReaderValidation = (data, onSuccess, onFail) => {
+   const file = firstNode(data);
+   if (!file) return onFail();
+
+   const reader = new FileReader();
+
+   return new Promise((resolve, reject) => {
+      reader.onerror = (error) => reject(error, 'upload error');
+      reader.readAsDataURL(file);
+
+      reader.addEventListener('load', (e) => {
+         const img = new Image();
+         img.src = e.target.result;
+
+         img.onerror = () => reject('error while uploading image');
+         img.onload = () => {
+            const height = img.height;
+            const width = img.width;
+            const sizeIsOk = checkImgResolution(height, width);
+            console.log(width + ' x ' + height + ' px ');
+            if (!sizeIsOk) reject('The minimum valid size 70x70 px');
+
+            resolve(file);
+         };
+      });
+   })
+      .then((file) => onSuccess(file))
+      .catch((error) => onFail(error));
+};
+
 const checkImgResolution = (height, width) => {
    return (
       (height && width && height > minImageRes && width > minImageRes) || false
@@ -73,4 +103,5 @@ export {
    firstIndex,
    firstNode,
    checkImgResolution,
+   fileReaderValidation,
 };
