@@ -6,13 +6,15 @@ import '@material/web/textfield/outlined-text-field.js';
 import '@material/web/field/outlined-field.js';
 import '@material/web/radio/radio.js';
 
-import * as helpers from '../../features/helpers.js';
-import { ErrorMessage } from '../ErrorMessage/Error.jsx';
-import { fetchPositions, postNewUser } from '../../redux/actions/actions.js';
-
-import global from '../../styles/styles.module.scss';
-
-import styles from './RegistrationForm.module.scss';
+import {
+   ErrorMessage,
+   fetchPositions,
+   global,
+   helpers,
+   postNewUser,
+   styles,
+   textFieldValidation,
+} from './common.js';
 
 export const Register = () => {
    const dispatch = useDispatch();
@@ -30,7 +32,7 @@ export const Register = () => {
       formState: { errors, isValid },
       handleSubmit,
    } = useForm({
-      mode: 'onTouched',
+      mode: 'all',
    });
 
    const onFormSubmit = (data) => {
@@ -45,6 +47,24 @@ export const Register = () => {
       return errorMessage;
    };
 
+   const userFileValidation = {
+      validate: {
+         MoreThan5MB: (files) =>
+            helpers.fileSizeValidation(files) || 'Max size 5mb',
+         ImageResValidation: (files) =>
+            helpers.fileReaderValidation(files, handleImgLoad, handleImgFail) ||
+            'Min size is 70x70',
+      },
+      pattern: {
+         value: imgData,
+         message: 'Invalid image! Min size is 70x70 px',
+      },
+      required: 'Empty field!',
+   };
+
+   const PostUserErrorHandler = () =>
+      postNewUserError && <ErrorMessage error={postNewUserError} />;
+
    return (
       <section className={global.container}>
          <h3 className={`${styles.sectionTitle} ${global.heading}`}>
@@ -58,80 +78,37 @@ export const Register = () => {
          >
             <div className={styles.textFieldsGroup}>
                <md-outlined-text-field
-                  {...register('userName', {
-                     minLength: {
-                        value: 2,
-                        message: 'Min length is 2 ',
-                     },
-                     maxLength: {
-                        value: 60,
-                        message: 'Max length is 60 ',
-                     },
-                     pattern: {
-                        value: helpers.regExpName,
-                        message:
-                           'Only allowed letters A-Z and symbols [a-z а-я `,.-]',
-                     },
-                     required: 'Empty field!',
-                  })}
+                  {...register('userName', textFieldValidation.userName)}
                   label="Your name"
                   type="text"
-                  error-text={errors.userName?.message || 'Invalid name format'}
-                  error={errors.userName}
                   supporting-text={errors.userName?.message || ' '}
+                  error={errors.userName}
+                  error-text={errors.userName?.message || 'Invalid name format'}
                ></md-outlined-text-field>
 
                <md-outlined-text-field
-                  {...register('userEmail', {
-                     minLength: {
-                        value: 2,
-                        message: 'Min length is 2',
-                     },
-                     maxLength: {
-                        value: 100,
-                        message: 'Max length is 100',
-                     },
-                     pattern: {
-                        value: helpers.regExpEmail,
-                        message: 'Not correct email format!',
-                     },
-                     required: 'Empty field!',
-                  })}
+                  {...register('userEmail', textFieldValidation.userEmail)}
                   label="Email"
                   type="email"
+                  supporting-text={' '}
+                  error={errors.userEmail}
                   error-text={
                      errors.userEmail?.message || 'Not correct email format!'
                   }
-                  error={errors.userEmail}
-                  supporting-text={' '}
                ></md-outlined-text-field>
 
                <md-outlined-text-field
-                  {...register('userPhone', {
-                     pattern: {
-                        value: helpers.regExpPhone,
-                        message:
-                           'Phone number should starta with +380 and fill only 0-9 digits',
-                     },
-                     minLength: {
-                        value: 12,
-                        message: 'Min length is 12',
-                     },
-                     maxLength: {
-                        value: 13,
-                        message: 'Max length is 13',
-                     },
-                     required: '+38 (XXX) XXX - XX - XX',
-                  })}
+                  {...register('userPhone', textFieldValidation.userPhone)}
                   label="Phone"
                   type="phone"
+                  supporting-text="+38 (XXX) XXX - XX - XX"
+                  error={errors.userPhone}
                   error-text={
                      errors.userPhone?.message || 'Not correct phone format!'
                   }
-                  error={errors.userPhone}
-                  supporting-text="+38 (XXX) XXX - XX - XX"
                ></md-outlined-text-field>
             </div>
+
             <div
                className={styles.radioGroup}
                role="radiogroup"
@@ -160,6 +137,7 @@ export const Register = () => {
                   <ErrorMessage error={fetchPositionsError} />
                )}
             </div>
+
             <md-outlined-field
                class={styles.fileUpload}
                spacing={0}
@@ -167,40 +145,22 @@ export const Register = () => {
                error-text={errors.userFile?.message || 'Empty Field!'}
             >
                <md-outlined-field
+                  label="Upload"
                   className={styles.fileUpload__fileInput}
                   error={errors.userFile}
-                  label="Upload"
                >
                   <input
                      className={styles.fileUpload__fileInput__hidden}
-                     {...register('userFile', {
-                        validate: {
-                           MoreThan5MB: (files) =>
-                              helpers.fileSizeValidation(files) ||
-                              'Max size 5mb',
-                           ImageResValidation: (files) =>
-                              helpers.fileReaderValidation(
-                                 files,
-                                 handleImgLoad,
-                                 handleImgFail,
-                              ) || 'Min size is 70x70',
-                        },
-                        pattern: {
-                           value: imgData,
-                           message: 'Invalid image! Min size is 70x70 px',
-                        },
-                        required: 'Empty field!',
-                     })}
+                     {...register('userFile', userFileValidation)}
                      type="file"
                      id="avatar"
                      accept="image/jpg, image/jpeg"
                   />
                </md-outlined-field>
-
                <md-outlined-field
-                  error={errors.userFile}
-                  htmlFor="avatar"
                   className={styles.fileUpload__label}
+                  htmlFor="avatar"
+                  error={errors.userFile}
                >
                   <span
                      className={
@@ -216,14 +176,14 @@ export const Register = () => {
                </md-outlined-field>
             </md-outlined-field>
 
-            {postNewUserError && <ErrorMessage error={postNewUserError} />}
-
             <input
                type="submit"
                className={global.buttonPrimary}
                value={'Sign up'}
                disabled={!isValid}
             />
+
+            <PostUserErrorHandler />
          </form>
       </section>
    );

@@ -32,6 +32,7 @@ const fileReaderValidation = (data, onSuccess, onFail) => {
             const height = img.height;
             const width = img.width;
             const sizeIsOk = checkImgResolution(height, width);
+
             console.log(width + ' x ' + height + ' px ');
             if (!sizeIsOk) reject('The minimum valid size 70x70 px');
 
