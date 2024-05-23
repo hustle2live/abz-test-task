@@ -21,18 +21,21 @@ export const Register = () => {
 
    useEffect(() => {
       dispatch(fetchPositions());
-   }, [dispatch]);
+   }, []);
 
    const state = useSelector((state) => state.userReducer);
    const positions = state.fetchPositions;
    const { postNewUserError, fetchPositionsError } = state.errors;
+
    const [imgData, setImgData] = useState(null);
+
    const {
       register,
-      formState: { errors, isValid },
       handleSubmit,
+      unregister,
+      formState: { errors, isValid },
    } = useForm({
-      mode: 'all',
+      mode: 'onTouched',
    });
 
    const onFormSubmit = (data) => {
@@ -62,14 +65,12 @@ export const Register = () => {
       required: 'Empty field!',
    };
 
-   const PostUserErrorHandler = () =>
-      postNewUserError && <ErrorMessage error={postNewUserError} />;
-
    return (
       <section className={global.container}>
          <h3 className={`${styles.sectionTitle} ${global.heading}`}>
             Working with POST request
          </h3>
+
          <form
             className={styles.formSubmit}
             method="post"
@@ -83,6 +84,7 @@ export const Register = () => {
                   type="text"
                   supporting-text={errors.userName?.message || ' '}
                   error={errors.userName}
+                  onChange={() => unregister('userPosition')}
                   error-text={errors.userName?.message || 'Invalid name format'}
                ></md-outlined-text-field>
 
@@ -117,6 +119,7 @@ export const Register = () => {
                <p id="group-title" className={styles.radioGroup__title}>
                   Select your position
                </p>
+
                {positions?.map((pos, index) => (
                   <div
                      key={`radio-${pos.id}`}
@@ -128,26 +131,23 @@ export const Register = () => {
                         value={pos.id}
                         className={styles.radioGroup__element}
                         label={pos.name}
-                        checked={index === 1 ? true : undefined}
+                        checked={pos.id === 3 ? true : undefined}
                      ></md-radio>
                      <label htmlFor={`radio-${pos.id}`}>{pos.name}</label>
                   </div>
                ))}
+
                {fetchPositionsError && (
                   <ErrorMessage error={fetchPositionsError} />
                )}
             </div>
 
-            <md-outlined-field
-               class={styles.fileUpload}
-               spacing={0}
-               error={errors.userFile}
-               error-text={errors.userFile?.message || 'Empty Field!'}
-            >
+            <div className={styles.fileUpload}>
                <md-outlined-field
                   label="Upload"
                   className={styles.fileUpload__fileInput}
                   error={errors.userFile}
+                  error-text={errors.userFile?.message || 'Empty Field!'}
                >
                   <input
                      className={styles.fileUpload__fileInput__hidden}
@@ -157,6 +157,7 @@ export const Register = () => {
                      accept="image/jpg, image/jpeg"
                   />
                </md-outlined-field>
+
                <md-outlined-field
                   className={styles.fileUpload__label}
                   htmlFor="avatar"
@@ -164,9 +165,9 @@ export const Register = () => {
                >
                   <span
                      className={
-                        imgData
-                           ? styles.fileUpload__label_fill
-                           : styles.fileUpload__label
+                        !imgData
+                           ? styles.fileUpload__label
+                           : styles.fileUpload__label_fill
                      }
                   >
                      {!errors.userFile && imgData
@@ -174,16 +175,16 @@ export const Register = () => {
                         : 'Upload your photo'}
                   </span>
                </md-outlined-field>
-            </md-outlined-field>
+            </div>
 
             <input
-               type="submit"
                className={global.buttonPrimary}
+               type="submit"
                value={'Sign up'}
                disabled={!isValid}
             />
 
-            <PostUserErrorHandler />
+            {postNewUserError && <ErrorMessage error={postNewUserError} />}
          </form>
       </section>
    );

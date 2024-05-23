@@ -93,6 +93,8 @@
          max-height: 54px;
          height: 54px;
          padding: 0;
+         width: 100%;
+         width: -webkit-fill-available;
 
          --md-outlined-field-container-shape-end-start: 0px;
          --md-outlined-field-container-shape-start-start: 0px;
@@ -118,6 +120,8 @@
          min-height: 54px;
          height: 54px;
          max-height: 54px;
+         width: 100%;
+         width: -webkit-fill-available;
       }
 
       & > md-outlined-field:first-of-type {
